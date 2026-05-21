@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candora — Contact</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Geist', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+
+        /* Input focus ring */
+        .field:focus {
+            outline: none;
+            border-color: #44403c;
+            box-shadow: 0 0 0 3px rgba(68,64,60,0.08);
+        }
+
+        /* Floating label */
+        .label-group { position: relative; }
+        .label-group input,
+        .label-group textarea,
+        .label-group select {
+            padding-top: 1.4rem;
+            padding-bottom: 0.5rem;
+        }
+        .label-group label {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            font-size: 0.875rem;
+            color: #a8a29e;
+            pointer-events: none;
+            transition: top .2s ease, font-size .2s ease, color .2s ease, transform .2s ease;
+        }
+        .label-group textarea ~ label { top: 1.1rem; transform: none; }
+        .label-group input:focus ~ label,
+        .label-group input:not(:placeholder-shown) ~ label,
+        .label-group select:focus ~ label,
+        .label-group select:not([value=""]) ~ label,
+        .label-group textarea:focus ~ label,
+        .label-group textarea:not(:placeholder-shown) ~ label {
+            top: 0.45rem;
+            font-size: 0.7rem;
+            color: #78716c;
+            transform: none;
+        }
+
+        /* Submit button shimmer */
+        @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position:  200% center; }
+        }
+        .btn-submit:hover::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+            background-size: 200% auto;
+            animation: shimmer 1.2s linear infinite;
+        }
+        .btn-submit { position: relative; overflow: hidden; }
+
+        /* Success state fade */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp .4s ease forwards; }
+
+        /* Decorative line */
+        .divider-dot::before,
+        .divider-dot::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e7e5e4;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-stone-50 border-b border-stone-300/20 shadow-sm">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-5 flex justify-between items-center gap-4">
+
+        <div class="font-playfair font-bold text-xl sm:text-2xl lg:text-3xl uppercase tracking-[0.5em] text-gray-800 whitespace-nowrap">
+            Candora
+        </div>
+
+        
+        <div class="hidden md:flex items-center gap-10 lg:gap-20">
+            <a href="index.html"    class="text-gray-600 text-base hover:text-stone-900 transition-colors">Home</a>
+            <a href="store.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">Shop</a>
+            <a href="about.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">About</a>
+            <a href="contact.html" class="text-stone-900 text-base border-b border-stone-900 pb-0.5">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4 sm:gap-6">
+            <svg class="w-5 h-5 text-gray-600 cursor-pointer" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <div id="cart-icon-btn" class="relative cursor-pointer" title="View Cart">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 01-8 0"/>
+                </svg>
+                <div id="cart-badge" class="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 bg-stone-800 rounded-full flex items-center justify-center hidden">
+                    <span id="cart-badge-text" class="text-white text-[10px] font-bold leading-none">0</span>
+                </div>
+            </div>
+            <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-1 cursor-pointer" aria-label="Open menu">
+                <span class="block w-5 h-0.5 bg-gray-600 rounded transition-all"></span>
+                <span class="block w-5 h-0.5 bg-gray-600 rounded transition-all"></span>
+                <span class="block w-5 h-0.5 bg-gray-600 rounded transition-all"></span>
+            </button>
+        </div>
+    </div>
+
+        <div id="mobile-menu" class="hidden md:hidden flex-col gap-5 px-6 sm:px-10 pb-6 pt-2 border-t border-stone-200 bg-stone-50">
+        <a href="index.html"    class="text-gray-600 text-base hover:text-stone-900 transition-colors">Home</a>
+        <a href="store.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">Shop</a>
+        <a href="about.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">About</a>
+        <a href="contact.html" class="text-stone-900 text-base font-medium">Contact</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 pt-10 sm:pt-14 lg:pt-16 text-center">
+    <p class="text-xs uppercase tracking-[0.35em] text-stone-400 mb-3">Get in Touch</p>
+    <h1 class="font-playfair font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800 leading-tight mb-3">
+        We'd Love to Hear From You
+    </h1>
+    <p class="max-w-lg mx-auto text-zinc-500 text-base leading-relaxed">
+        Questions about an order, wholesale enquiries, or just want to talk candles —
+        drop us a note and we'll get back within one business day.
+    </p>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-14 sm:py-16 lg:py-20
+            grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-12 lg:gap-20 items-start">
+
+    <!-- LEFT — Info panel -->
+    <aside class="flex flex-col gap-10">
+
+        <!-- Info cards -->
+        <div class="flex flex-col gap-6">
+
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs uppercase tracking-widest text-stone-400 mb-1">Email</p>
+                    <a href="mailto:hello@candora.co" class="text-gray-800 text-base hover:text-stone-600 transition-colors">hello@candora.co</a>
+                    <p class="text-stone-400 text-sm mt-0.5">Replies within 1 business day</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 15.72V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs uppercase tracking-widest text-stone-400 mb-1">Phone</p>
+                    <a href="tel:+15550001234" class="text-gray-800 text-base hover:text-stone-600 transition-colors">+1 (555) 000-1234</a>
+                    <p class="text-stone-400 text-sm mt-0.5">Mon – Fri, 9 am – 5 pm EST</p>
+                </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4 text-stone-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs uppercase tracking-widest text-stone-400 mb-1">Studio</p>
+                    <p class="text-gray-800 text-base">24 Ember Lane, Brooklyn</p>
+                    <p class="text-stone-400 text-sm mt-0.5">New York, NY 11201</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 divider-dot">
+            <span class="text-stone-300 text-base">✦</span>
+        </div>
+
+        <!-- Social -->
+        <div>
+            <p class="text-xs uppercase tracking-widest text-stone-400 mb-4">Follow the Ritual</p>
+            <div class="flex gap-4">
+                <a href="#" aria-label="Instagram"
+                   class="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center
+                          hover:border-stone-400 hover:bg-stone-50 transition-all group">
+                    <svg class="w-4 h-4 text-stone-500 group-hover:text-stone-800 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                        <path fill="none" stroke="currentColor" stroke-width="1.8" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                        <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Facebook"
+                   class="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center
+                          hover:border-stone-400 hover:bg-stone-50 transition-all group">
+                    <svg class="w-4 h-4 text-stone-500 group-hover:text-stone-800 transition-colors" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Pinterest"
+                   class="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center
+                          hover:border-stone-400 hover:bg-stone-50 transition-all group">
+                    <svg class="w-4 h-4 text-stone-500 group-hover:text-stone-800 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Hours -->
+        <div class="bg-stone-50 rounded-xl p-6 border border-stone-100">
+            <p class="text-xs uppercase tracking-widest text-stone-400 mb-4">Studio Hours</p>
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-stone-500">Monday – Friday</span>
+                    <span class="text-gray-700">9:00 am – 6:00 pm</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-stone-500">Saturday</span>
+                    <span class="text-gray-700">10:00 am – 4:00 pm</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-stone-500">Sunday</span>
+                    <span class="text-stone-400">Closed</span>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- RIGHT — Contact form -->
+    <section>
+        <!-- Form -->
+        <div id="form-wrap">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+
+                <!-- Name -->
+                <div class="label-group">
+                    <input id="name" type="text" placeholder=" " autocomplete="name"
+                        class="field w-full border border-stone-200 rounded-lg px-4 pt-5 pb-2
+                               text-gray-800 text-base bg-white transition-all"/>
+                    <label for="name">Full Name *</label>
+                </div>
+
+                <!-- Email -->
+                <div class="label-group">
+                    <input id="email" type="email" placeholder=" " autocomplete="email"
+                        class="field w-full border border-stone-200 rounded-lg px-4 pt-5 pb-2
+                               text-gray-800 text-base bg-white transition-all"/>
+                    <label for="email">Email Address *</label>
+                </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="label-group mb-4 relative">
+                <select id="subject"
+                    class="field w-full border border-stone-200 rounded-lg px-4 pt-5 pb-2
+                           text-gray-800 text-base bg-white appearance-none cursor-pointer transition-all">
+                    <option value="" disabled selected hidden></option>
+                    <option value="order">Order & Shipping</option>
+                    <option value="return">Returns & Exchanges</option>
+                    <option value="wholesale">Wholesale Enquiry</option>
+                    <option value="press">Press & Collaboration</option>
+                    <option value="other">Something Else</option>
+                </select>
+                <label for="subject">What's this about? *</label>
+                <!-- Chevron -->
+                <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-stone-400 pointer-events-none"
+                     viewBox="0 0 10 6" fill="none">
+                    <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <!-- Order number (optional) -->
+            <div class="label-group mb-4">
+                <input id="order" type="text" placeholder=" "
+                    class="field w-full border border-stone-200 rounded-lg px-4 pt-5 pb-2
+                           text-gray-800 text-base bg-white transition-all"/>
+                <label for="order">Order Number (optional)</label>
+            </div>
+
+            <!-- Message -->
+            <div class="label-group mb-6">
+                <textarea id="message" rows="5" placeholder=" "
+                    class="field w-full border border-stone-200 rounded-lg px-4 pt-6 pb-3
+                           text-gray-800 text-base bg-white resize-none transition-all"></textarea>
+                <label for="message">Your Message *</label>
+            </div>
+
+            <!-- Error -->
+            <p id="form-error" class="hidden text-sm text-red-500 mb-4 tracking-wide"></p>
+
+            <!-- Submit -->
+            <button id="submit-btn" onclick="handleSubmit()"
+                class="btn-submit w-full bg-stone-900 hover:bg-stone-700 active:scale-[0.98]
+                       transition-all text-white text-sm uppercase tracking-widest py-4 px-6
+                       rounded-lg cursor-pointer flex items-center justify-center gap-3">
+                <span id="btn-label">Send Message</span>
+                <svg id="btn-arrow" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                </svg>
+                <!-- Spinner (hidden by default) -->
+                <svg id="btn-spinner" class="hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="white" stroke-width="4"/>
+                    <path class="opacity-75" fill="white" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                </svg>
+            </button>
+
+            <p class="text-stone-400 text-xs text-center mt-4 tracking-wide">
+                We respect your privacy. No spam, ever.
+            </p>
+        </div>
+
+        <!-- Success state (hidden) -->
+        <div id="success-wrap" class="hidden fade-up text-center py-10 px-6">
+            <div class="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center mx-auto mb-6">
+                <svg class="w-7 h-7 text-stone-700" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h2 class="font-playfair text-2xl text-gray-800 mb-3">Message Received</h2>
+            <p class="text-stone-500 text-base max-w-sm mx-auto leading-relaxed mb-8">
+                Thank you for reaching out. We'll reply to <span id="success-email" class="text-gray-700 font-medium"></span> within one business day.
+            </p>
+            <button onclick="resetForm()"
+                class="inline-flex items-center gap-2 text-sm uppercase tracking-widest text-stone-600
+                       border border-stone-300 px-6 py-3 rounded-lg hover:border-stone-500
+                       hover:text-stone-800 transition-all cursor-pointer">
+                Send Another
+            </button>
+        </div>
+
+    </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-stone-100 border-t border-stone-300/30">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-14 sm:py-16 lg:py-20
+                flex flex-col sm:flex-row justify-between items-start gap-10 sm:gap-8 flex-wrap">
+        <div class="w-full sm:w-72 lg:w-96 flex flex-col gap-4">
+            <span class="font-playfair font-medium text-2xl uppercase tracking-[0.2em] text-gray-800">Candora</span>
+            <p class="text-gray-600 text-base leading-relaxed max-w-xs">
+                Creating atmospheric sanctuary through intentional design and the finest natural elements.
+            </p>
+            <div class="flex items-center gap-6">
+                <svg class="w-4 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path fill="white" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"/></svg>
+            </div>
+        </div>
+        <div class="flex gap-10 sm:gap-16 lg:gap-20 flex-wrap">
+            <div class="flex flex-col gap-2">
+                <span class="text-gray-800 text-base uppercase mb-1">Assistance</span>
+                <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Shipping</a>
+                <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Returns</a>
+                <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">FAQ</a>
+            </div>
+            <div class="flex flex-col gap-2">
+                <span class="text-gray-800 text-base uppercase mb-1">Journal</span>
+                <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">The Ritual</a>
+                <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Our Story</a>
+                <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Wholesale</a>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-6 border-t border-stone-300/10
+                flex flex-col sm:flex-row justify-between items-center gap-3">
+        <span class="text-gray-600 text-base opacity-80">© 2024 Candora Wellness. Crafted for Serenity.</span>
+        <div class="flex gap-6">
+            <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Privacy</a>
+            <a href="#" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Terms</a>
+        </div>
+    </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+// ── Cart badge (reads from localStorage, no store.js needed) ──
+(function () {
+    const CART_KEY = 'order';
+    function getCart() { try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } }
+    function updateBadge() {
+        const total = getCart().reduce((s, i) => s + i.qty, 0);
+        const badge = document.getElementById('cart-badge');
+        const text  = document.getElementById('cart-badge-text');
+        if (!badge || !text) return;
+        text.textContent = total;
+        badge.classList.toggle('hidden', total === 0);
+    }
+    updateBadge();
+    document.getElementById('cart-icon-btn')?.addEventListener('click', () => window.location.href = 'cart.html');
+})();
+
+// ── Hamburger ──
+document.getElementById('hamburger')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+
+// ── Form validation & submit ──
+function validate() {
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value.trim();
+    const errEl   = document.getElementById('form-error');
+
+    if (!name) { showError('Please enter your full name.'); return false; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('Please enter a valid email address.'); return false;
+    }
+    if (!subject) { showError('Please select a subject.'); return false; }
+    if (!message || message.length < 10) {
+        showError('Please write a message (at least 10 characters).'); return false;
+    }
+    errEl.classList.add('hidden');
+    return true;
+}
+
+function showError(msg) {
+    const el = document.getElementById('form-error');
+    el.textContent = msg;
+    el.classList.remove('hidden');
+}
+
+function setLoading(on) {
+    document.getElementById('btn-label').textContent  = on ? 'Sending…' : 'Send Message';
+    document.getElementById('btn-arrow').classList.toggle('hidden', on);
+    document.getElementById('btn-spinner').classList.toggle('hidden', !on);
+    document.getElementById('submit-btn').disabled = on;
+}
+
+function handleSubmit() {
+    if (!validate()) return;
+    setLoading(true);
+
+    // Simulate network delay (replace with real fetch when backend exists)
+    setTimeout(() => {
+        const email = document.getElementById('email').value.trim();
+        document.getElementById('form-wrap').classList.add('hidden');
+        const sw = document.getElementById('success-wrap');
+        sw.classList.remove('hidden');
+        sw.classList.add('fade-up');
+        document.getElementById('success-email').textContent = email;
+        setLoading(false);
+    }, 1400);
+}
+
+function resetForm() {
+    ['name','email','order','message'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('subject').value = '';
+    document.getElementById('form-error').classList.add('hidden');
+    document.getElementById('success-wrap').classList.add('hidden');
+    document.getElementById('form-wrap').classList.remove('hidden');
+}
+</script>
+
+</body>
+</html>
