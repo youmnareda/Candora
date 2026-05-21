@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candora — About</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Geist', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+
+        /* Parallax-lite hero */
+        .about-hero {
+            background-image: url('./img/8.jpeg');
+            background-size: cover;
+            background-position: center 30%;
+            min-height: 60vh;
+        }
+        @media (max-width: 640px) { .about-hero { min-height: 45vh; } }
+
+        /* Timeline connector */
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: #d6d3d1;
+            margin: 16px auto 0;
+        }
+
+        /* Value card hover */
+        .value-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .value-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.07); }
+
+        /* Team card */
+        .team-card img { transition: transform 0.4s ease; }
+        .team-card:hover img { transform: scale(1.04); }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-stone-50 border-b border-stone-300/20 shadow-sm">
+    <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-5 flex justify-between items-center gap-4">
+
+        <a href="index.html" class="font-playfair font-bold text-xl sm:text-2xl lg:text-3xl uppercase tracking-[0.5em] text-gray-800 whitespace-nowrap">
+            Candora
+        </a>
+
+        <div class="hidden md:flex items-center gap-10 lg:gap-20">
+            <a href="index.html"    class="text-gray-600 text-base hover:text-stone-900 transition-colors">Home</a>
+            <a href="store.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">Shop</a>
+            <a href="about.html"   class="text-stone-900 text-base border-b border-stone-900 pb-0.5">About</a>
+            <a href="contact.html" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-4 sm:gap-6">
+            <svg class="w-5 h-5 text-gray-600 cursor-pointer" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <div id="cart-icon-btn" class="relative cursor-pointer" title="View Cart">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 01-8 0"/>
+                </svg>
+                <div id="cart-badge" class="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 bg-stone-800 rounded-full flex items-center justify-center hidden">
+                    <span id="cart-badge-text" class="text-white text-[10px] font-bold leading-none">0</span>
+                </div>
+            </div>
+            <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-1 cursor-pointer" aria-label="Open menu">
+                <span class="block w-5 h-0.5 bg-gray-600 rounded transition-all"></span>
+                <span class="block w-5 h-0.5 bg-gray-600 rounded transition-all"></span>
+                <span class="block w-5 h-0.5 bg-gray-600 rounded transition-all"></span>
+            </button>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden flex-col gap-5 px-6 sm:px-10 pb-6 pt-2 border-t border-stone-200 bg-stone-50">
+        <a href="index.html"    class="text-gray-600 text-base hover:text-stone-900 transition-colors">Home</a>
+        <a href="store.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">Shop</a>
+        <a href="about.html"   class="text-stone-900 text-base font-medium">About</a>
+        <a href="contact.html" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Contact</a>
+    </div>
+</nav>
+
+<!--  HERO -->
+<section class="about-hero relative flex items-end min-h-screen overflow-hidden">
+    
+    <!-- Background Image -->
+    <img 
+        src="./img/hero2.png" 
+        alt="Modern workspace" 
+        class="absolute inset-0 w-full h-full object-cover"
+    >
+
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black/40"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 w-full bg-gradient-to-t from-black/70 via-black/30 to-transparent px-6 sm:px-10 lg:px-28 py-12 sm:py-16">
+        <div class="max-w-[1440px] mx-auto">
+            <p class="text-xs uppercase tracking-[0.35em] text-[#EFCEA9] mb-3">
+                Est. 2019 · Brooklyn, NY
+            </p>
+
+            <h1 class="font-playfair font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-white leading-tight max-w-2xl">
+                Born From a Belief<br>
+                That Place Shapes Mind.
+            </h1>
+        </div>
+    </div>
+
+</section>
+<!-- ORIGIN STORY -->
+<section class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-16 sm:py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div>
+            <p class="text-xs uppercase tracking-[0.35em] text-stone-400 mb-3">Our Origin</p>
+            <h2 class="font-playfair font-bold text-2xl sm:text-3xl lg:text-4xl text-gray-800 leading-snug mb-6">
+                A Small Studio.<br>A Big Obsession.
+            </h2>
+            <div class="flex flex-col gap-5 text-gray-600 leading-relaxed">
+                <p>
+                    Candora began in 2019 in a 400-square-foot Brooklyn studio, where founder Lena Ashford spent months experimenting with soy wax ratios, botanical oil blends, and hand-thrown ceramic forms. The goal was never just a candle — it was an atmosphere.
+                </p>
+                <p>
+                    Frustrated by products that burned fast and smelled synthetic, Lena set a personal rule: every Candora candle had to last at least 60 hours and use only therapeutic-grade essential oils. No shortcuts. No fillers.
+                </p>
+                <p>
+                    Today, that same obsession guides a team of twelve artisans who hand-pour every vessel in small batches, ensuring each one carries the care and intention of the first.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="rounded-2xl overflow-hidden bg-stone-100 row-span-2">
+                <img src="./img/6.jpeg" class="w-full h-full object-cover min-h-[280px]" alt="Candora studio">
+            </div>
+            <div class="rounded-2xl overflow-hidden bg-stone-100">
+                <img src="./img/10.jpeg" class="w-full h-full object-cover min-h-[130px]" alt="Pouring candles">
+            </div>
+            <div class="rounded-2xl overflow-hidden bg-[#F6F3F3] flex flex-col items-center justify-center p-5 text-center min-h-[130px]">
+                <p class="font-playfair font-bold text-3xl text-[#b88b74]">12K+</p>
+                <p class="text-stone-500 text-xs mt-1 uppercase tracking-wide">Candles poured</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--  VALUES -->
+<section class="bg-[#F6F3F3] py-16 sm:py-20 px-6 sm:px-10 lg:px-28">
+    <div class="max-w-[1440px] mx-auto">
+        <div class="text-center mb-12">
+            <p class="text-xs uppercase tracking-[0.35em] text-stone-400 mb-3">What We Stand For</p>
+            <h2 class="font-playfair font-bold text-2xl sm:text-3xl text-gray-800">Our Values</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div class="value-card bg-white rounded-2xl p-7 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#EFCEA9]/30 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#b88b74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21C12 21 4 16 4 9a5 5 0 0110 0 5 5 0 0110 0c0 7-8 12-8 12z"/>
+                    </svg>
+                </div>
+                <h3 class="font-playfair font-semibold text-lg text-gray-800">Eco-Conscious</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">100% natural soy wax, sustainably sourced botanicals, and zero synthetic additives in every pour.</p>
+            </div>
+
+            <div class="value-card bg-white rounded-2xl p-7 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#EFCEA9]/30 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#b88b74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3"/>
+                    </svg>
+                </div>
+                <h3 class="font-playfair font-semibold text-lg text-gray-800">Hand-Poured</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">Every candle is poured by hand in small batches, never rushed, never mass-produced.</p>
+            </div>
+
+            <div class="value-card bg-white rounded-2xl p-7 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#EFCEA9]/30 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#b88b74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3s4 4 4 8a4 4 0 11-8 0c0-4 4-8 4-8z"/>
+                    </svg>
+                </div>
+                <h3 class="font-playfair font-semibold text-lg text-gray-800">Therapeutic</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">We use only therapeutic-grade essential oils — no fragrance blends, no synthetics, no compromise.</p>
+            </div>
+
+            <div class="value-card bg-white rounded-2xl p-7 flex flex-col gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#EFCEA9]/30 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#b88b74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <circle cx="12" cy="12" r="9" stroke-width="1.5"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 7v5l3 3"/>
+                    </svg>
+                </div>
+                <h3 class="font-playfair font-semibold text-lg text-gray-800">Long Burn</h3>
+                <p class="text-stone-500 text-sm leading-relaxed">Every candle is formulated to burn a minimum of 60 hours — because longevity is a form of respect.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS TIMELINE -->
+<section class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-16 sm:py-20">
+    <div class="text-center mb-12">
+        <p class="text-xs uppercase tracking-[0.35em] text-stone-400 mb-3">From Studio to Shelf</p>
+        <h2 class="font-playfair font-bold text-2xl sm:text-3xl text-gray-800">The Candora Process</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+
+        <div class="flex flex-col items-center text-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-stone-100 flex items-center justify-center text-[#b88b74] font-playfair font-bold text-xl">01</div>
+            <div class="w-px h-8 bg-stone-200 lg:hidden"></div>
+            <h3 class="font-playfair font-semibold text-lg text-gray-800">Source</h3>
+            <p class="text-stone-500 text-sm leading-relaxed">We partner only with certified sustainable farms for our soy wax and botanical oils.</p>
+        </div>
+
+        <div class="flex flex-col items-center text-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-stone-100 flex items-center justify-center text-[#b88b74] font-playfair font-bold text-xl">02</div>
+            <div class="w-px h-8 bg-stone-200 lg:hidden"></div>
+            <h3 class="font-playfair font-semibold text-lg text-gray-800">Blend</h3>
+            <p class="text-stone-500 text-sm leading-relaxed">Our in-house perfumer crafts each scent profile through dozens of small-batch trials.</p>
+        </div>
+
+        <div class="flex flex-col items-center text-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-stone-100 flex items-center justify-center text-[#b88b74] font-playfair font-bold text-xl">03</div>
+            <div class="w-px h-8 bg-stone-200 lg:hidden"></div>
+            <h3 class="font-playfair font-semibold text-lg text-gray-800">Pour</h3>
+            <p class="text-stone-500 text-sm leading-relaxed">Hand-poured at precisely 135°F into our signature ceramic vessels, then left to cure for 72 hours.</p>
+        </div>
+
+        <div class="flex flex-col items-center text-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-stone-100 flex items-center justify-center text-[#b88b74] font-playfair font-bold text-xl">04</div>
+            <h3 class="font-playfair font-semibold text-lg text-gray-800">Deliver</h3>
+            <p class="text-stone-500 text-sm leading-relaxed">Wrapped in recycled tissue and shipped in compostable packaging — serenity, delivered.</p>
+        </div>
+
+    </div>
+
+    <!-- Connector line (desktop only) -->
+    <div class="hidden lg:flex items-center justify-between mt-[-160px] mb-[120px] px-[56px] pointer-events-none">
+        <div class="flex-1 h-px bg-stone-200 mx-2"></div>
+        <div class="flex-1 h-px bg-stone-200 mx-2"></div>
+        <div class="flex-1 h-px bg-stone-200 mx-2"></div>
+    </div>
+</section>
+
+<!-- STATS BANNER -->
+<section class="bg-stone-900 py-14 sm:py-16 px-6 sm:px-10 lg:px-28">
+    <div class="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-10 text-center">
+        <div>
+            <p class="font-playfair font-bold text-3xl sm:text-4xl text-[#EFCEA9] mb-2">2019</p>
+            <p class="text-stone-400 text-sm uppercase tracking-wide">Year Founded</p>
+        </div>
+        <div>
+            <p class="font-playfair font-bold text-3xl sm:text-4xl text-[#EFCEA9] mb-2">12K+</p>
+            <p class="text-stone-400 text-sm uppercase tracking-wide">Candles Poured</p>
+        </div>
+        <div>
+            <p class="font-playfair font-bold text-3xl sm:text-4xl text-[#EFCEA9] mb-2">100%</p>
+            <p class="text-stone-400 text-sm uppercase tracking-wide">Natural Ingredients</p>
+        </div>
+        <div>
+            <p class="font-playfair font-bold text-3xl sm:text-4xl text-[#EFCEA9] mb-2">60hr</p>
+            <p class="text-stone-400 text-sm uppercase tracking-wide">Avg. Burn Time</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- CTA -->
+<section class="bg-[#F6F3F3] py-16 sm:py-20 px-6 sm:px-10 lg:px-28 text-center">
+    <div class="max-w-xl mx-auto">
+        <p class="text-xs uppercase tracking-[0.35em] text-stone-400 mb-3">Ready to Experience It?</p>
+        <h2 class="font-playfair font-bold text-2xl sm:text-3xl text-gray-800 mb-5">
+            Find Your Ritual.
+        </h2>
+        <p class="text-stone-500 leading-relaxed mb-8">
+            Browse the collection and discover the scent that was made for your sanctuary.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="store.html"
+               class="inline-block bg-stone-900 hover:bg-stone-700 active:scale-[0.98] transition-all
+                      text-white text-sm uppercase tracking-widest px-8 py-4 rounded-md">
+                Shop the Collection
+            </a>
+            <a href="contact.html"
+               class="inline-block border border-stone-900 hover:bg-stone-900 hover:text-white
+                      active:scale-[0.98] transition-all text-stone-900 text-sm uppercase
+                      tracking-widest px-8 py-4 rounded-md">
+                Get in Touch
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER  -->
+<footer class="w-full bg-stone-100 border-t border-stone-300/30">
+    <div class="max-w-screen-xl mx-auto px-6 sm:px-10 lg:px-28 py-16 sm:py-20">
+        <div class="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-0">
+            <div class="max-w-xs">
+                <p class="font-playfair font-medium text-gray-800 text-2xl uppercase tracking-[2.4px] leading-8 mb-4">CANDORA</p>
+                <p class="text-gray-600 text-base leading-6">Elevating the everyday into the extraordinary through the art of sensory wellness.</p>
+            </div>
+            <div class="flex flex-wrap gap-12 sm:gap-16 lg:gap-40">
+                <div class="flex flex-col gap-3">
+                    <p class="text-gray-800 text-base uppercase leading-6">Company</p>
+                    <a href="about.html"   class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">About Us</a>
+                    <a href="#"            class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Journal</a>
+                    <a href="#"            class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Sustainability</a>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <p class="text-gray-800 text-base uppercase leading-6">Support</p>
+                    <a href="#"            class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Shipping</a>
+                    <a href="#"            class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Returns</a>
+                    <a href="contact.html" class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">FAQ</a>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <p class="text-gray-800 text-base uppercase leading-6">Legal</p>
+                    <a href="#" class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Privacy</a>
+                    <a href="#" class="text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Terms</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-screen-xl mx-auto px-6 sm:px-10 lg:px-28 py-6 border-t border-stone-300/10
+                flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-gray-600 text-sm sm:text-base leading-6 opacity-60 text-center sm:text-left">© 2024 Candora Wellness. Crafted for Serenity.</p>
+        <div class="flex items-center gap-6 opacity-60">
+            <a href="#" aria-label="Twitter" class="text-gray-600 hover:text-gray-900 transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram" class="text-gray-600 hover:text-gray-900 transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" aria-label="Pinterest" class="text-gray-600 hover:text-gray-900 transition-colors">
+                <svg class="w-4 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Cart badge
+(function () {
+    const CART_KEY = 'order';
+    function getCart() { try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } }
+    function updateBadge() {
+        const total = getCart().reduce((s, i) => s + i.qty, 0);
+        const badge = document.getElementById('cart-badge');
+        const text  = document.getElementById('cart-badge-text');
+        if (!badge || !text) return;
+        text.textContent = total;
+        badge.classList.toggle('hidden', total === 0);
+    }
+    updateBadge();
+    document.getElementById('cart-icon-btn')?.addEventListener('click', () => window.location.href = 'cart.html');
+})();
+
+// Hamburger
+document.getElementById('hamburger')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+</script>
+
+</body>
+</html>
