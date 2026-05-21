@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candora — Product</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Geist', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+
+    /* Image zoom on hover */
+    .product-img-wrap { overflow: hidden; }
+    .product-img-wrap img { transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .product-img-wrap:hover img { transform: scale(1.04); }
+
+    /* Fade-in on load */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.55s ease both; }
+    .fade-up-delay { animation: fadeUp 0.55s 0.12s ease both; }
+    .fade-up-delay-2 { animation: fadeUp 0.55s 0.22s ease both; }
+
+    /* Stock badge pulse */
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
+    }
+    .low-stock-pulse { animation: pulse-soft 2s ease infinite; }
+
+    /* Qty button */
+    .qty-btn { transition: background 0.15s, transform 0.1s; }
+    .qty-btn:active { transform: scale(0.88); }
+  </style>
+</head>
+<body class="bg-white text-gray-800 min-h-screen">
+
+<!-- NAV -->
+<nav class="sticky top-0 z-50 bg-stone-50 border-b border-stone-300/20 shadow-sm">
+  <div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-5 flex justify-between items-center gap-4">
+    <a href="store.html" class="font-playfair font-bold text-xl sm:text-2xl lg:text-3xl uppercase tracking-[0.5em] text-gray-800 whitespace-nowrap">Candora</a>
+    <div class="hidden md:flex items-center gap-10 lg:gap-20">
+      <a href="index.html"    class="text-gray-600 text-base hover:text-stone-900 transition-colors">Home</a>
+      <a href="store.html"   class="text-stone-900 text-base border-b border-stone-900 pb-0.5">Shop</a>
+      <a href="about.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">About</a>
+      <a href="contact.html" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Contact</a>
+    </div>
+    <div class="flex items-center gap-4 sm:gap-6">
+      <svg class="w-5 h-5 text-gray-600 cursor-pointer" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <div id="cart-icon-btn" class="relative cursor-pointer" title="View Cart">
+        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <div id="cart-badge" class="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 bg-stone-800 rounded-full flex items-center justify-center hidden">
+          <span id="cart-badge-text" class="text-white text-[10px] font-bold leading-none">0</span>
+        </div>
+      </div>
+      <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-1 cursor-pointer" aria-label="Open menu">
+        <span class="block w-5 h-0.5 bg-gray-600 rounded"></span>
+        <span class="block w-5 h-0.5 bg-gray-600 rounded"></span>
+        <span class="block w-5 h-0.5 bg-gray-600 rounded"></span>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden flex-col gap-5 px-6 sm:px-10 pb-6 pt-2 border-t border-stone-200 bg-stone-50">
+    <a href="index.html"    class="text-gray-600 text-base hover:text-stone-900 transition-colors">Home</a>
+    <a href="store.html"   class="text-stone-900 text-base font-medium">Shop</a>
+    <a href="about.html"   class="text-gray-600 text-base hover:text-stone-900 transition-colors">About</a>
+    <a href="contact.html" class="text-gray-600 text-base hover:text-stone-900 transition-colors">Contact</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 pt-6 pb-2">
+  <nav class="flex items-center gap-2 text-xs text-gray-400 font-geist">
+    <a href="store.html" class="hover:text-gray-700 transition-colors">Shop</a>
+    <span>/</span>
+    <span id="breadcrumb-name" class="text-gray-600 truncate max-w-[200px]">Product</span>
+  </nav>
+</div>
+
+<!-- NOT FOUND STATE (hidden by default) -->
+<div id="not-found" class="hidden max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-32  flex-col items-center gap-4 text-center">
+  <p class="font-playfair text-zinc-400 text-2xl">Product not found</p>
+  <a href="store.html" class="font-geist text-xs text-amber-700 uppercase tracking-wider hover:underline">← Back to Shop</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<main id="product-detail" class="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-28 py-8 sm:py-12 lg:py-16">
+  <div class="flex flex-col lg:flex-row gap-10 lg:gap-20 xl:gap-28 items-start">
+
+    <!-- IMAGE -->
+    <div class="w-full lg:w-[48%] xl:w-[520px] flex-shrink-0 fade-up">
+      <div class="product-img-wrap rounded-xl overflow-hidden bg-stone-100 shadow-sm aspect-[4/5]">
+        <img id="product-img" src="" alt="" class="w-full h-full object-cover" />
+      </div>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="flex-1 flex flex-col gap-6 fade-up-delay">
+
+      <!-- Stock badge -->
+      <div id="stock-badge-wrap"></div>
+
+      <!-- Name & price -->
+      <div class="flex flex-col gap-2">
+        <h1 id="product-name" class="font-playfair font-medium text-zinc-900 text-3xl sm:text-4xl leading-tight"></h1>
+        <p id="product-price" class="font-geist font-semibold text-lime-600 text-xl tracking-wide"></p>
+      </div>
+
+      <!-- Divider -->
+      <div class="h-px bg-stone-200"></div>
+
+      <!-- Description -->
+      <div class="flex flex-col gap-2">
+        <p class="font-geist text-xs text-gray-400 uppercase tracking-widest">About this candle</p>
+        <p id="product-meta" class="font-geist text-gray-600 text-base leading-7"></p>
+      </div>
+
+      <!-- Details list -->
+      <ul class="flex flex-col gap-2.5 fade-up-delay-2">
+        <li class="flex items-start gap-3 font-geist text-sm text-gray-600">
+          <svg class="w-4 h-4 mt-0.5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.468 5.99 5.99 0 00-1.925 3.547 5.975 5.975 0 01-2.133-1A3.75 3.75 0 0012 18z"/></svg>
+          Hand-poured with 100% natural soy wax
+        </li>
+        <li class="flex items-start gap-3 font-geist text-sm text-gray-600">
+          <svg class="w-4 h-4 mt-0.5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          45–55 hour burn time
+        </li>
+        <li class="flex items-start gap-3 font-geist text-sm text-gray-600">
+          <svg class="w-4 h-4 mt-0.5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          Phthalate-free fragrance oils
+        </li>
+        <li class="flex items-start gap-3 font-geist text-sm text-gray-600">
+          <svg class="w-4 h-4 mt-0.5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+          Complimentary shipping on all orders
+        </li>
+      </ul>
+
+      <!-- Divider -->
+      <div class="h-px bg-stone-200"></div>
+
+      <!-- Qty + Add to cart -->
+      <div id="cart-controls" class="flex flex-col gap-4"></div>
+
+    </div>
+  </div>
+
+  <!-- RELATED PRODUCTS -->
+  <div class="mt-20 sm:mt-28">
+    <div class="flex items-center gap-4 mb-8">
+      <h2 class="font-playfair font-medium text-zinc-900 text-2xl">You may also like</h2>
+      <div class="flex-1 h-px bg-stone-200"></div>
+    </div>
+    <div id="related-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-7"></div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="w-full bg-stone-100 border-t border-stone-300/30 mt-16">
+  <div class="max-w-screen-xl mx-auto px-6 sm:px-10 lg:px-28 py-16 sm:py-20">
+    <div class="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-0">
+      <div class="max-w-xs">
+        <p class="font-playfair font-medium text-gray-800 text-2xl uppercase tracking-[2.4px] leading-8 mb-4">CANDORA</p>
+        <p class="font-geist text-gray-600 text-base leading-6">Elevating the everyday into the extraordinary through the art of sensory wellness.</p>
+      </div>
+      <div class="flex flex-wrap gap-12 sm:gap-16 lg:gap-40">
+        <div class="flex flex-col gap-3">
+          <p class="font-geist text-gray-800 text-base uppercase leading-6">Company</p>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">About Us</a>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Journal</a>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Sustainability</a>
+        </div>
+        <div class="flex flex-col gap-3">
+          <p class="font-geist text-gray-800 text-base uppercase leading-6">Support</p>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Shipping</a>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Returns</a>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">FAQ</a>
+        </div>
+        <div class="flex flex-col gap-3">
+          <p class="font-geist text-gray-800 text-base uppercase leading-6">Legal</p>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Privacy</a>
+          <a href="#" class="font-geist text-gray-600 text-base leading-6 hover:text-gray-900 transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-screen-xl mx-auto px-6 sm:px-10 lg:px-28 py-6 border-t border-stone-300/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <p class="font-geist text-gray-600 text-sm leading-6 opacity-60">© 2024 Candora Wellness. Crafted for Serenity.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="product.js"></script>
+</body>
+</html>
